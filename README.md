@@ -8,7 +8,7 @@ Cyberpunk Edgerunners-inspired fastfetch config, colorscheme & terminal setup.
 ---
 
 ## Screenshots
-2
+
 ![iTerm2 preview](screenshots/iTerm2.png)
 
 ---
