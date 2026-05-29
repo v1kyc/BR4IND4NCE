@@ -1,0 +1,161 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+
+  "logo": {
+    "source": "$HOME/.config/fastfetch/edgerunners.png",
+    "padding": { "left": 1, "right": 2, "top": 1 },
+  },
+
+  "display": {
+    "percent": { "type": ["bar"] }, // show percentages as ASCII bars
+    "bar": {
+      "width": 11,
+    },
+    "duration": { "abbreviation": true }, // "2d 3h" instead of "2 days 3 hours"
+    "size": {
+      "binaryPrefix": "jedec", // MB/GB rather than MiB/GiB
+      "ndigits": 1,
+    },
+    "separator": "",
+    "key": { "width": 16 },
+    "disableLinewrap": true,
+
+    // {$1}–{$5} are box-drawing borders; {$6}–{$8} are per-section color codes.
+    // The \e[NNd escape after each braille row resets the cursor leftward so the
+    // module's key label prints on top of the glyph — same column, no extra space.
+    "constants": [
+      "╭──────────────────────────────\u001b[29D", // {$1} section top border
+      "│  ⠞⠕⠓⠟⠎⠥⠃⠽⠙⠑ \u001b[11D", // {$2} braille row 1 (decorative)
+      "│  ⠋⠗⠝⠊⠏⠁⠧⠉⠭⠞ \u001b[11D", // {$3} braille row 2
+      "│  ⠽⠍⠓⠥⠎⠟⠃⠑⠙⠕ \u001b[11D", // {$4} braille row 3
+      "╰──────────────────────────────", // {$5} section bottom border
+      "\u001b[0;36m", // {$6} SYSTEM section color  (cyan — change to recolor)
+      "\u001b[0;36m", // {$7} DESKTOP section color (cyan — change to recolor)
+      "\u001b[0;36m", // {$8} MACHINE section color (cyan — change to recolor)
+    ],
+  },
+
+  "modules": [
+    {
+      "type": "title",
+      "format": "\u001b[1m{user-name}\u001b[1;33m@{host-name} {#reset_dim_}{home-dir}",
+    },
+    "break",
+
+    // ── SYSTEM ──────────────────────────────────
+    { "type": "custom", "format": "{$6}{$1}[  sʏsᴛᴇᴍ ]" },
+    {
+      "type": "os",
+      "key": "{$6}{$2}ʙᴀsᴇ",
+      "format": "{name} {codename} {#dim_}[v{version}]",
+    },
+    {
+      "type": "kernel",
+      "key": "{$6}{$3}ᴋᴇʀɴᴇʟ",
+      "format": "{sysname} {#dim_}[v{release}]",
+    },
+    {
+      "type": "datetime",
+      "key": "{$6}{$4}ᴛɪᴍᴇ",
+      "format": "{#inverse_}|{hour-12-pretty}:{minute-pretty} {am-pm}|{#reset_} {day-pretty} {month-name-short} {#dim_}[UTC{offset-from-utc:3} {timezone-name}]",
+    },
+    {
+      // Age of /System/Volumes/VM in fractional years — proxy for OS install age on macOS.
+      // Change "folders" to "/" on Linux.
+      "type": "disk",
+      "key": "{$6}{$3}ᴇᴘᴏᴄʜ",
+      "folders": "/System/Volumes/VM",
+      "format": "{years-fraction}'yrs {#dim_}[since {create-time:10}]",
+    },
+    {
+      "type": "uptime",
+      "key": "{$6}{$4}ᴜᴘᴛɪᴍᴇ",
+      // ~5,16 trims the boot timestamp to chars 5–16, removing the day-of-week prefix
+      "format": "{formatted} {#dim_}[since {boot-time~5,16}]",
+    },
+    {
+      // {brew-all} = formulae + casks combined. Swap for {pacman}, {apt}, etc. on Linux.
+      "type": "packages",
+      "key": "{$6}{$2}ᴘᴀᴄᴋᴀɢᴇs",
+      "format": "{brew-all} {#dim_}[homebrew]",
+    },
+    {
+      "type": "shell",
+      "key": "{$6}{$3}sʜᴇʟʟ",
+      "format": "{pretty-name} {#dim_}[v{version}] [PID:{pid}]",
+    },
+    { "type": "custom", "format": "{$6}{$5}" },
+
+    // ── DESKTOP ─────────────────────────────────
+    { "type": "custom", "format": "{$7}{$1}[  ᴅᴇsᴋᴛᴏᴘ ]" },
+    {
+      "type": "de",
+      "key": "{$7}{$2}sᴜʀғᴀᴄᴇ",
+      "format": "{pretty-name} {#dim_}[v{version}]",
+    },
+    {
+      "type": "wm",
+      "key": "{$7}{$4}ғʀᴀᴍᴇ",
+      "format": "{pretty-name} {#dim_}[v{version}]",
+    },
+    {
+      // Live ANSI color swatch prepended to the theme name
+      "type": "theme",
+      "key": "{$7}{$3}ᴛʜᴇᴍᴇ",
+      "format": "\u001b[0;33m▐\u001b[0;31m▐\u001b[0;35m▐\u001b[0;34m▐\u001b[0;36m▐\u001b[0;32m▐\u001b[0;30m▐\u001b[0;37m▐ {#reset_}{theme1} {#dim_}[system]",
+    },
+    {
+      "type": "cursor",
+      "key": "{$7}{$2}ᴄᴜʀsᴏʀ",
+      "format": "{theme} {#dim_}[{size}pt]",
+    },
+    {
+      "type": "terminal",
+      "key": "{$7}{$4}ᴛᴇʀᴍɪɴᴀʟ",
+      "format": "{pretty-name} {#dim_}[v{version}] [PID:{pid}]",
+    },
+    {
+      "type": "terminalfont",
+      "key": "{$7}{$3}ғᴏɴᴛ",
+      "format": "{name} {#dim_}[{size}pt]",
+    },
+    { "type": "custom", "format": "{$7}{$5}" },
+
+    // ── MACHINE ─────────────────────────────────
+    { "type": "custom", "format": "{$8}{$1}[  ᴍᴀᴄʜɪɴᴇ ]" },
+    {
+      "type": "host",
+      "key": "{$8}{$3}ᴜɴɪᴛ",
+      "format": "{name:-12} {#dim_}[SN:{serial}]", // :-12 pads/truncates name to 12 chars
+    },
+    {
+      "type": "cpu",
+      "key": "{$8}{$4}ᴄʜɪᴘ",
+      "format": "{name}{#dim_}@{freq-max} [C:{cores-logical}] [{march}]",
+    },
+    {
+      "type": "gpu",
+      "key": "{$8}{$2}ʙʟᴀᴅᴇ",
+      "detectionMethod": "auto",
+      "hideType": "none", // show all GPU types including integrated
+      "temp": true,
+      "format": "{name}{#dim_}@{frequency} [C:{core-count}] [{type}]",
+    },
+    {
+      "type": "memory",
+      "key": "{$8}{$3}ᴍᴇᴍᴏʀʏ",
+      "format": "{percentage-bar} {used}{#dim_}/{total}",
+    },
+    {
+      "type": "disk",
+      "key": "{$8}{$4}sᴛᴏʀᴀɢᴇ",
+      "format": "{size-percentage-bar} {size-used}{#dim_}/{size-total}",
+    },
+    {
+      "type": "battery",
+      "key": "{$8}{$2}ʙᴀᴛᴛᴇʀʏ",
+      "format": "{capacity-bar} {status} {#dim_}[{technology} rev'{cycle-count}]",
+    },
+    { "type": "custom", "format": "{$8}{$5}" },
+  ],
+}
