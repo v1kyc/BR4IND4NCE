@@ -16,8 +16,8 @@ Cyberpunk Edgerunners-inspired fastfetch config, colorscheme & terminal setup.
 ## Tested Terminals
 
 - [x] iTerm2 *(with shell extension)*
-- [ ] Windows Terminal *planned*
-- [ ] kitty *planned*
+- [ ] Windows Terminal *(planned)*
+- [ ] kitty *(planned)*
 
 *More terminals on the way. PRs welcome, choom.*
 
