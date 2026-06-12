@@ -1,0 +1,25 @@
+{
+    "name": "Edgerunners",
+    "background": "#120C13",
+    "foreground": "#D13454",
+    "cursorColor": "#5BFFA8",
+    "selectionBackground": "#382870",
+
+    "black":         "#130E13",
+    "red":           "#E52D56",
+    "green":         "#2DDD84",
+    "yellow":        "#FEFB02",
+    "blue":          "#443DD1",
+    "purple":        "#C628B7",
+    "cyan":          "#66F9CB",
+    "white":         "#D1CCD1",
+
+    "brightBlack":   "#5B4C54",
+    "brightRed":     "#FF6B89",
+    "brightGreen":   "#5BFFA8",
+    "brightYellow":  "#FFF94F",
+    "brightBlue":    "#666BF4",
+    "brightPurple":  "#EF60EA",
+    "brightCyan":    "#9FFDDE",
+    "brightWhite":   "#F8F7F8"
+}
